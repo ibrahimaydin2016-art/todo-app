@@ -61,21 +61,31 @@
     clip-path: polygon(0% 80%, 14% 60%, 26% 78%, 40% 52%, 52% 74%, 66% 50%, 78% 72%, 90% 56%, 100% 70%, 100% 100%, 0% 100%);
   }
 
-  /* Yavaşça süzülen canlı aurora ışık şeritleri (dağların arkasında) */
+  /* Yavaşça süzülen canlı aurora: zıt yönlerde akan iki ışık şeridi (dağların arkasında) */
   .aurora {
-    position: fixed; inset: -25%; z-index: -3; pointer-events: none; opacity: .85;
-    background:
-      linear-gradient(115deg,
-        rgba(255,95,141,0) 8%,
-        rgba(255,95,141,.55) 24%,
-        rgba(255,138,91,.5) 40%,
-        rgba(255,194,75,.45) 54%,
-        rgba(173,99,201,.5) 70%,
-        rgba(94,140,255,0) 88%);
-    background-size: 260% 260%;
-    filter: blur(48px);
-    animation: auroraDrift 24s ease-in-out infinite alternate;
-    will-change: background-position, transform;
+    position: fixed; inset: -30%; z-index: -3; pointer-events: none; overflow: hidden;
+  }
+  .aurora::before, .aurora::after {
+    content: ""; position: absolute; inset: -10%;
+    background-size: 300% 300%;
+    will-change: background-position, transform, filter;
+  }
+  .aurora::before {
+    opacity: .9;
+    background: linear-gradient(115deg,
+      rgba(255,95,141,0) 5%, rgba(255,95,141,.6) 22%, rgba(255,138,91,.55) 38%,
+      rgba(255,194,75,.5) 52%, rgba(173,99,201,.55) 68%, rgba(94,140,255,0) 86%);
+    filter: blur(46px);
+    animation: auroraDrift 19s ease-in-out infinite alternate,
+               auroraHue 13s ease-in-out infinite alternate;
+  }
+  .aurora::after {
+    opacity: .6;
+    background: linear-gradient(245deg,
+      rgba(94,140,255,0) 10%, rgba(173,99,201,.5) 30%, rgba(255,95,141,.5) 55%,
+      rgba(255,170,80,.45) 75%, rgba(255,170,80,0) 92%);
+    filter: blur(54px);
+    animation: auroraDrift2 26s ease-in-out infinite alternate;
   }
 
   .container { max-width: 760px; margin: 0 auto; position: relative; z-index: 1; }
@@ -227,13 +237,20 @@
   @keyframes rise { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
   @keyframes floaty { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-7px); } }
   @keyframes auroraDrift {
-    0%   { background-position: 0% 30%;   transform: translateY(0) scale(1.05); }
-    50%  { background-position: 100% 60%; transform: translateY(-3%) scale(1.1); }
-    100% { background-position: 40% 100%; transform: translateY(0) scale(1.05); }
+    0%   { background-position: 0% 20%;   transform: translate3d(-4%, 0, 0) scale(1.12); }
+    100% { background-position: 100% 85%; transform: translate3d(5%, -3%, 0) scale(1.22); }
+  }
+  @keyframes auroraDrift2 {
+    0%   { background-position: 100% 80%; transform: translate3d(4%, 2%, 0) scale(1.16); }
+    100% { background-position: 0% 10%;   transform: translate3d(-5%, -2%, 0) scale(1.26); }
+  }
+  @keyframes auroraHue {
+    0%   { filter: blur(46px) hue-rotate(-14deg); }
+    100% { filter: blur(46px) hue-rotate(14deg); }
   }
   @keyframes shimmer { to { background-position: 200% center; } }
   @media (prefers-reduced-motion: reduce) {
-    .aurora, header h1 .grad, header h1 .moon, .auth-card::before { animation: none !important; }
+    .aurora::before, .aurora::after, header h1 .grad, header h1 .moon, .auth-card::before { animation: none !important; }
   }
   .auth-card::before { animation: floaty 3.5s ease-in-out infinite; }
 
