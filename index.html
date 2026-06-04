@@ -6,151 +6,224 @@
 <title>Yapılacaklar Listesi</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Patrick+Hand&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #f4f5f7;
-    --card: rgba(255,255,255,0.8);
-    --primary: #4f46e5;
-    --primary-dark: #4338ca;
-    --text: #1f2937;
-    --muted: #6b7280;
-    --border: #e5e7eb;
-    --done: #9ca3af;
-    --danger: #ef4444;
+    --text: #eef2ff;
+    --muted: #aab1d6;
+    --accent: #a78bfa;
+    --accent2: #f472b6;
+    --cyan: #34d3ee;
+    --glass: rgba(255,255,255,0.07);
+    --glass-strong: rgba(255,255,255,0.11);
+    --border: rgba(255,255,255,0.16);
+    --done: rgba(238,242,255,0.42);
+    --danger: #fb7185;
+    --grad: linear-gradient(135deg, #34d3ee, #a78bfa 55%, #f472b6);
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
 
   body {
-    font-family: 'Patrick Hand', 'Comic Sans MS', cursive;
+    font-family: 'Poppins', system-ui, sans-serif;
     color: var(--text);
     line-height: 1.5;
-    font-size: 17px;
-    padding: 24px 16px;
-    /* Not defteri kağıdı: krem zemin + mavi yatay çizgiler + kırmızı kenar çizgisi */
-    background-color: #fbfaf2;
+    font-size: 15px;
+    padding: 24px 16px 48px;
+    position: relative;
+    z-index: 0;
+    min-height: 100vh;
+    /* Gece gökyüzü arka plan resmi: yıldız tarlası + aurora ışıkları + derin gradyan */
+    background-color: #070b1f;
     background-image:
-      linear-gradient(90deg, transparent 58px, #f0b3b3 58px, #f0b3b3 60px, transparent 60px),
-      repeating-linear-gradient(#fbfaf2 0px, #fbfaf2 31px, #bcd8f0 31px, #bcd8f0 32px);
+      radial-gradient(1.5px 1.5px at 40px 60px, rgba(255,255,255,.9), transparent),
+      radial-gradient(1px 1px at 130px 120px, rgba(255,255,255,.7), transparent),
+      radial-gradient(1.5px 1.5px at 210px 40px, rgba(255,255,255,.85), transparent),
+      radial-gradient(1px 1px at 290px 170px, rgba(255,255,255,.6), transparent),
+      radial-gradient(1px 1px at 90px 230px, rgba(255,255,255,.75), transparent),
+      radial-gradient(2px 2px at 340px 100px, rgba(255,255,255,.9), transparent),
+      radial-gradient(ellipse 80% 50% at 15% 6%, rgba(52,211,238,.30), transparent 60%),
+      radial-gradient(ellipse 70% 50% at 85% 10%, rgba(167,139,250,.34), transparent 60%),
+      radial-gradient(ellipse 95% 60% at 50% -5%, rgba(244,114,182,.20), transparent 55%),
+      linear-gradient(180deg, #0a0f29 0%, #0e1233 45%, #1c1146 100%);
+    background-repeat: repeat, repeat, repeat, repeat, repeat, repeat, no-repeat, no-repeat, no-repeat, no-repeat;
+    background-size: 380px 280px, 380px 280px, 380px 280px, 380px 280px, 380px 280px, 380px 280px, 100% 100%, 100% 100%, 100% 100%, 100% 100%;
     background-attachment: fixed;
   }
 
-  h1, h2, .tab, .input-row button, .auth-card .primary-btn {
-    font-family: 'Caveat', 'Patrick Hand', cursive;
+  /* Uzak ve yakın dağ silüetleri (arka plan resminin parçası) */
+  body::before, body::after {
+    content: ""; position: fixed; left: 0; right: 0; bottom: 0; pointer-events: none;
+  }
+  body::before {
+    height: 42vh; z-index: -2; opacity: .9;
+    background: linear-gradient(180deg, #2a1d5e, #160f3a);
+    clip-path: polygon(0% 70%, 10% 55%, 22% 68%, 33% 42%, 45% 60%, 58% 38%, 70% 58%, 82% 40%, 92% 56%, 100% 46%, 100% 100%, 0% 100%);
+  }
+  body::after {
+    height: 30vh; z-index: -1;
+    background: linear-gradient(180deg, #130d31, #07050f);
+    clip-path: polygon(0% 80%, 14% 60%, 26% 78%, 40% 52%, 52% 74%, 66% 50%, 78% 72%, 90% 56%, 100% 70%, 100% 100%, 0% 100%);
   }
 
-  .container { max-width: 760px; margin: 0 auto; }
+  .container { max-width: 760px; margin: 0 auto; position: relative; z-index: 1; }
 
-  header { text-align: center; margin-bottom: 24px; }
-  header h1 { font-size: 42px; color: var(--primary); }
-  header p { color: var(--muted); font-size: 14px; margin-top: 4px; }
+  header { text-align: center; margin-bottom: 28px; }
+  header h1 {
+    font-size: 30px; font-weight: 700; display: flex; align-items: center;
+    justify-content: center; gap: 12px; line-height: 1.1;
+  }
+  header h1 .moon { font-size: 34px; filter: drop-shadow(0 4px 14px rgba(167,139,250,.6)); animation: floaty 4s ease-in-out infinite; }
+  header h1 .grad {
+    font-family: 'Dancing Script', cursive; font-weight: 700; font-size: 52px;
+    background: var(--grad); -webkit-background-clip: text; background-clip: text;
+    color: transparent; -webkit-text-fill-color: transparent;
+    filter: drop-shadow(0 2px 20px rgba(167,139,250,.45));
+  }
+  header p { color: var(--muted); font-size: 14px; margin-top: 6px; letter-spacing: .3px; }
 
   .hidden { display: none !important; }
 
+  /* ---------- Cam efektli ortak yüzey ---------- */
+  .auth-card, .userbar, .list {
+    background: var(--glass);
+    -webkit-backdrop-filter: blur(18px) saturate(150%);
+    backdrop-filter: blur(18px) saturate(150%);
+    border: 1px solid var(--border);
+    box-shadow: 0 20px 60px rgba(0,0,0,.45), inset 0 1px 0 rgba(255,255,255,.12);
+  }
+
   /* ---------- Auth ekranı ---------- */
   .auth-card {
-    max-width: 380px; margin: 40px auto 0; background: var(--card);
-    border: 1px solid var(--border); border-radius: 14px; padding: 28px 24px;
+    max-width: 400px; margin: 54px auto 0; border-radius: 24px; padding: 40px 28px 30px;
+    position: relative; animation: rise .6s ease both;
   }
-  .auth-card h2 { font-size: 30px; margin-bottom: 4px; }
-  .auth-card .sub { color: var(--muted); font-size: 14px; margin-bottom: 20px; }
-  .auth-card label { display: block; font-size: 13px; font-weight: 600; color: var(--muted); margin-bottom: 6px; }
+  .auth-card::before {
+    content: "🌙"; position: absolute; top: -26px; left: 50%; transform: translateX(-50%);
+    font-size: 44px; filter: drop-shadow(0 6px 18px rgba(167,139,250,.7));
+    animation: floaty 3.5s ease-in-out infinite;
+  }
+  .auth-card h2 {
+    font-family: 'Dancing Script', cursive; font-weight: 700; font-size: 42px; text-align: center;
+    background: var(--grad); -webkit-background-clip: text; background-clip: text;
+    color: transparent; -webkit-text-fill-color: transparent; margin-bottom: 2px;
+  }
+  .auth-card .sub { text-align: center; color: var(--muted); font-size: 14px; margin-bottom: 22px; }
+  .auth-card label { display: block; font-size: 12px; font-weight: 600; color: var(--muted); margin-bottom: 6px; letter-spacing: .4px; }
   .auth-card input {
-    width: 100%; padding: 12px 14px; border: 1px solid var(--border);
-    border-radius: 10px; font-size: 15px; outline: none; margin-bottom: 16px;
+    width: 100%; padding: 13px 15px; border-radius: 12px; font-size: 15px; outline: none; margin-bottom: 16px;
+    background: rgba(255,255,255,0.06); border: 1px solid var(--border); color: var(--text);
+    transition: border-color .15s, box-shadow .15s;
   }
-  .auth-card input:focus { border-color: var(--primary); }
   .auth-card .primary-btn {
-    width: 100%; padding: 12px; background: var(--primary); color: #fff; border: none;
-    border-radius: 10px; font-size: 20px; font-weight: 600; cursor: pointer;
+    width: 100%; padding: 14px; border: none; border-radius: 12px; cursor: pointer;
+    font-size: 16px; font-weight: 600; color: #fff; letter-spacing: .3px;
+    background: var(--grad); background-size: 180% 180%;
+    box-shadow: 0 10px 28px rgba(167,139,250,.45);
+    transition: transform .15s, box-shadow .15s, filter .2s;
   }
-  .auth-card .primary-btn:hover { background: var(--primary-dark); }
-  .auth-card .primary-btn:disabled { opacity: .6; cursor: not-allowed; }
-  .auth-switch { text-align: center; margin-top: 16px; font-size: 14px; color: var(--muted); }
-  .auth-switch a { color: var(--primary); font-weight: 600; cursor: pointer; text-decoration: none; }
-  .auth-msg { font-size: 14px; padding: 10px 12px; border-radius: 8px; margin-bottom: 16px; display: none; }
-  .auth-msg.error { display: block; background: #fef2f2; color: var(--danger); border: 1px solid #fecaca; }
+  .auth-card .primary-btn:hover { transform: translateY(-2px); box-shadow: 0 16px 36px rgba(244,114,182,.5); filter: brightness(1.05); }
+  .auth-card .primary-btn:active { transform: translateY(0); }
+  .auth-card .primary-btn:disabled { opacity: .6; cursor: not-allowed; transform: none; }
+  .auth-switch { text-align: center; margin-top: 18px; font-size: 14px; color: var(--muted); }
+  .auth-switch a { color: var(--accent2); font-weight: 600; cursor: pointer; text-decoration: none; }
+  .auth-switch a:hover { text-decoration: underline; }
+  .auth-msg { font-size: 14px; padding: 11px 13px; border-radius: 10px; margin-bottom: 16px; display: none; }
+  .auth-msg.error { display: block; background: rgba(251,113,133,.14); color: #fecdd3; border: 1px solid rgba(251,113,133,.4); }
 
   /* ---------- Üst bilgi çubuğu ---------- */
   .userbar {
     display: flex; justify-content: space-between; align-items: center;
-    background: var(--card); border: 1px solid var(--border); border-radius: 10px;
-    padding: 8px 14px; margin-bottom: 16px; font-size: 14px;
+    border-radius: 14px; padding: 10px 16px; margin-bottom: 18px; font-size: 14px;
   }
   .userbar .email { color: var(--muted); }
   .userbar button {
-    background: none; border: 1px solid var(--border); color: var(--muted);
-    padding: 6px 12px; border-radius: 8px; cursor: pointer; font-size: 13px;
+    background: rgba(255,255,255,0.05); border: 1px solid var(--border); color: var(--muted);
+    padding: 7px 14px; border-radius: 9px; cursor: pointer; font-size: 13px; transition: all .15s;
   }
-  .userbar button:hover { border-color: var(--danger); color: var(--danger); }
+  .userbar button:hover { border-color: var(--danger); color: var(--danger); background: rgba(251,113,133,.1); }
 
   /* ---------- Sekmeler ---------- */
-  .tabs { display: flex; gap: 8px; justify-content: center; margin-bottom: 20px; }
+  .tabs { display: flex; gap: 10px; justify-content: center; margin-bottom: 22px; }
   .tab {
-    flex: 1; max-width: 160px; padding: 10px 12px;
-    border: 1px solid var(--border); background: var(--card); color: var(--muted);
-    border-radius: 10px; cursor: pointer; font-size: 20px; font-weight: 600; transition: all .15s;
+    flex: 1; max-width: 170px; padding: 11px 12px; border-radius: 12px; cursor: pointer;
+    font-size: 15px; font-weight: 600; transition: all .18s; color: var(--muted);
+    background: var(--glass); border: 1px solid var(--border);
+    -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
   }
-  .tab:hover { border-color: var(--primary); }
-  .tab.active { background: var(--primary); color: #fff; border-color: var(--primary); }
+  .tab:hover { color: var(--text); border-color: var(--accent); transform: translateY(-1px); }
+  .tab.active {
+    color: #fff; border-color: transparent; background: var(--grad);
+    box-shadow: 0 10px 24px rgba(167,139,250,.4);
+  }
 
   /* ---------- Giriş alanı ---------- */
-  .input-row { display: flex; gap: 8px; margin-bottom: 16px; }
-  .input-row input[type="text"] {
-    flex: 1; padding: 12px 14px; border: 1px solid var(--border);
-    border-radius: 10px; font-size: 15px; outline: none;
+  .input-row { display: flex; gap: 10px; margin-bottom: 18px; }
+  .input-row input[type="text"], .input-row select, .input-row input[type="time"] {
+    padding: 13px 15px; border-radius: 12px; font-size: 15px; outline: none;
+    background: var(--glass-strong); border: 1px solid var(--border); color: var(--text);
+    -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
+    transition: border-color .15s, box-shadow .15s;
   }
-  .input-row input[type="text"]:focus { border-color: var(--primary); }
-  .input-row select, .input-row input[type="time"] {
-    padding: 12px 10px; border: 1px solid var(--border); border-radius: 10px;
-    font-size: 14px; outline: none; background: var(--card);
-  }
+  .input-row input[type="text"] { flex: 1; }
+  .input-row select option { color: #15172e; }
+  input:focus, select:focus { border-color: var(--accent) !important; box-shadow: 0 0 0 3px rgba(167,139,250,.28); }
+  ::placeholder { color: rgba(238,242,255,.42); }
   .input-row button {
-    padding: 12px 18px; background: var(--primary); color: #fff; border: none;
-    border-radius: 10px; font-size: 20px; font-weight: 600; cursor: pointer; transition: background .15s;
+    padding: 13px 22px; border: none; border-radius: 12px; cursor: pointer;
+    font-size: 15px; font-weight: 600; color: #fff; background: var(--grad);
+    box-shadow: 0 10px 24px rgba(167,139,250,.4); transition: transform .15s, box-shadow .15s, filter .2s;
   }
-  .input-row button:hover { background: var(--primary-dark); }
-  .input-row button:disabled { opacity: .6; cursor: not-allowed; }
+  .input-row button:hover { transform: translateY(-2px); box-shadow: 0 14px 30px rgba(244,114,182,.5); filter: brightness(1.05); }
+  .input-row button:disabled { opacity: .6; cursor: not-allowed; transform: none; }
 
   /* ---------- Liste ---------- */
-  .list { background: var(--card); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; min-height: 80px; }
+  .list { border-radius: 16px; overflow: hidden; min-height: 90px; }
   .group-title {
-    padding: 10px 16px; background: #f9fafb; font-size: 13px; font-weight: 700;
-    color: var(--muted); text-transform: uppercase; letter-spacing: .5px; border-top: 1px solid var(--border);
+    padding: 11px 18px; background: rgba(255,255,255,0.04); font-size: 12px; font-weight: 700;
+    color: var(--cyan); text-transform: uppercase; letter-spacing: 1px; border-top: 1px solid var(--border);
   }
   .group-title:first-child { border-top: none; }
-  .item { display: flex; align-items: center; gap: 12px; padding: 12px 16px; border-top: 1px solid var(--border); }
-  .item input[type="checkbox"] { width: 20px; height: 20px; cursor: pointer; accent-color: var(--primary); flex-shrink: 0; }
-  .item .time { font-size: 13px; font-weight: 700; color: var(--primary); min-width: 48px; }
+  .item { display: flex; align-items: center; gap: 13px; padding: 13px 18px; border-top: 1px solid rgba(255,255,255,0.09); transition: background .15s; }
+  .item:hover { background: rgba(255,255,255,0.04); }
+  .item input[type="checkbox"] { width: 20px; height: 20px; cursor: pointer; accent-color: var(--accent); flex-shrink: 0; }
+  .item .time {
+    font-size: 12px; font-weight: 700; min-width: 50px; padding: 3px 9px; border-radius: 999px;
+    color: #06121a; background: linear-gradient(135deg, var(--cyan), #67e8f9); text-align: center;
+  }
   .item .text { flex: 1; font-size: 15px; word-break: break-word; }
   .item.done .text { text-decoration: line-through; color: var(--done); }
-  .item .del { background: none; border: none; color: var(--muted); font-size: 18px; cursor: pointer; padding: 4px 8px; border-radius: 6px; flex-shrink: 0; }
-  .item .del:hover { color: var(--danger); background: #fef2f2; }
-  .empty, .loading { padding: 40px 16px; text-align: center; color: var(--muted); font-size: 15px; }
+  .item .del { background: none; border: none; color: var(--muted); font-size: 18px; cursor: pointer; padding: 4px 9px; border-radius: 8px; flex-shrink: 0; transition: all .15s; }
+  .item .del:hover { color: var(--danger); background: rgba(251,113,133,.12); }
+  .empty, .loading { padding: 44px 16px; text-align: center; color: var(--muted); font-size: 15px; }
 
-  .footer-bar { display: flex; justify-content: space-between; align-items: center; margin-top: 14px; font-size: 13px; color: var(--muted); }
+  .footer-bar { display: flex; justify-content: space-between; align-items: center; margin-top: 16px; font-size: 13px; color: var(--muted); }
   .footer-bar button {
-    background: none; border: 1px solid var(--border); color: var(--muted);
-    padding: 6px 12px; border-radius: 8px; cursor: pointer; font-size: 13px;
+    background: rgba(255,255,255,0.05); border: 1px solid var(--border); color: var(--muted);
+    padding: 7px 14px; border-radius: 9px; cursor: pointer; font-size: 13px; transition: all .15s;
   }
-  .footer-bar button:hover { border-color: var(--danger); color: var(--danger); }
+  .footer-bar button:hover { border-color: var(--danger); color: var(--danger); background: rgba(251,113,133,.1); }
 
   .error-banner {
-    display: none; background: #fef2f2; color: var(--danger); border: 1px solid #fecaca;
-    padding: 10px 14px; border-radius: 10px; margin-bottom: 12px; font-size: 14px;
+    display: none; background: rgba(251,113,133,.14); color: #fecdd3; border: 1px solid rgba(251,113,133,.4);
+    padding: 11px 15px; border-radius: 12px; margin-bottom: 14px; font-size: 14px;
   }
+
+  @keyframes rise { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
+  @keyframes floaty { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-7px); } }
+  .auth-card::before { animation: floaty 3.5s ease-in-out infinite; }
 
   @media (max-width: 520px) {
     .input-row { flex-wrap: wrap; }
     .input-row input[type="text"] { flex-basis: 100%; }
+    header h1 .grad { font-size: 42px; }
   }
 </style>
 </head>
 <body>
   <div class="container">
     <header>
-      <h1>📝 Yapılacaklar Listesi</h1>
+      <h1><span class="moon">🌙</span><span class="grad">Yapılacaklar Listesi</span></h1>
       <p>Günlük, haftalık ve saatlik görevlerini yönet</p>
     </header>
 
@@ -161,10 +234,10 @@
 
       <div class="auth-msg" id="authMsg"></div>
 
-      <label for="email">E-posta</label>
+      <label for="email">E-POSTA</label>
       <input type="email" id="email" placeholder="ornek@eposta.com" autocomplete="email">
 
-      <label for="password">Şifre</label>
+      <label for="password">ŞİFRE</label>
       <input type="password" id="password" placeholder="En az 6 karakter" autocomplete="current-password">
 
       <button class="primary-btn" id="authBtn">Giriş Yap</button>
