@@ -9,17 +9,17 @@
 <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root {
-    --text: #eef2ff;
-    --muted: #aab1d6;
-    --accent: #a78bfa;
-    --accent2: #f472b6;
-    --cyan: #34d3ee;
-    --glass: rgba(255,255,255,0.07);
-    --glass-strong: rgba(255,255,255,0.11);
-    --border: rgba(255,255,255,0.16);
-    --done: rgba(238,242,255,0.42);
-    --danger: #fb7185;
-    --grad: linear-gradient(135deg, #34d3ee, #a78bfa 55%, #f472b6);
+    --text: #fff5ef;
+    --muted: #f3d7c8;
+    --accent: #ff8a5b;
+    --accent2: #ff5f8d;
+    --cyan: #ffcf8b;
+    --glass: rgba(255,255,255,0.08);
+    --glass-strong: rgba(255,255,255,0.12);
+    --border: rgba(255,255,255,0.20);
+    --done: rgba(255,245,239,0.45);
+    --danger: #ff6b81;
+    --grad: linear-gradient(135deg, #ff5f8d, #ff8a5b 55%, #ffc24b);
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -34,20 +34,15 @@
     z-index: 0;
     min-height: 100vh;
     /* Gece gökyüzü arka plan resmi: yıldız tarlası + aurora ışıkları + derin gradyan */
-    background-color: #070b1f;
+    background-color: #2a1456;
     background-image:
-      radial-gradient(1.5px 1.5px at 40px 60px, rgba(255,255,255,.9), transparent),
-      radial-gradient(1px 1px at 130px 120px, rgba(255,255,255,.7), transparent),
-      radial-gradient(1.5px 1.5px at 210px 40px, rgba(255,255,255,.85), transparent),
-      radial-gradient(1px 1px at 290px 170px, rgba(255,255,255,.6), transparent),
-      radial-gradient(1px 1px at 90px 230px, rgba(255,255,255,.75), transparent),
-      radial-gradient(2px 2px at 340px 100px, rgba(255,255,255,.9), transparent),
-      radial-gradient(ellipse 80% 50% at 15% 6%, rgba(52,211,238,.30), transparent 60%),
-      radial-gradient(ellipse 70% 50% at 85% 10%, rgba(167,139,250,.34), transparent 60%),
-      radial-gradient(ellipse 95% 60% at 50% -5%, rgba(244,114,182,.20), transparent 55%),
-      linear-gradient(180deg, #0a0f29 0%, #0e1233 45%, #1c1146 100%);
-    background-repeat: repeat, repeat, repeat, repeat, repeat, repeat, no-repeat, no-repeat, no-repeat, no-repeat;
-    background-size: 380px 280px, 380px 280px, 380px 280px, 380px 280px, 380px 280px, 380px 280px, 100% 100%, 100% 100%, 100% 100%, 100% 100%;
+      radial-gradient(1.4px 1.4px at 40px 50px, rgba(255,255,255,.8), transparent),
+      radial-gradient(1px 1px at 210px 30px, rgba(255,255,255,.65), transparent),
+      radial-gradient(1.2px 1.2px at 320px 95px, rgba(255,255,255,.6), transparent),
+      radial-gradient(circle 240px at 50% 72%, rgba(255,246,212,.95), rgba(255,170,95,.55) 38%, transparent 72%),
+      linear-gradient(180deg, #241050 0%, #5b2a86 26%, #c0417e 52%, #ff7a59 76%, #ffc081 100%);
+    background-repeat: repeat, repeat, repeat, no-repeat, no-repeat;
+    background-size: 360px 260px, 360px 260px, 360px 260px, 100% 100%, 100% 100%;
     background-attachment: fixed;
   }
 
@@ -57,13 +52,30 @@
   }
   body::before {
     height: 42vh; z-index: -2; opacity: .9;
-    background: linear-gradient(180deg, #2a1d5e, #160f3a);
+    background: linear-gradient(180deg, #3a1d5e, #25103f);
     clip-path: polygon(0% 70%, 10% 55%, 22% 68%, 33% 42%, 45% 60%, 58% 38%, 70% 58%, 82% 40%, 92% 56%, 100% 46%, 100% 100%, 0% 100%);
   }
   body::after {
     height: 30vh; z-index: -1;
-    background: linear-gradient(180deg, #130d31, #07050f);
+    background: linear-gradient(180deg, #1b0d2f, #0c0518);
     clip-path: polygon(0% 80%, 14% 60%, 26% 78%, 40% 52%, 52% 74%, 66% 50%, 78% 72%, 90% 56%, 100% 70%, 100% 100%, 0% 100%);
+  }
+
+  /* Yavaşça süzülen canlı aurora ışık şeritleri (dağların arkasında) */
+  .aurora {
+    position: fixed; inset: -25%; z-index: -3; pointer-events: none; opacity: .85;
+    background:
+      linear-gradient(115deg,
+        rgba(255,95,141,0) 8%,
+        rgba(255,95,141,.55) 24%,
+        rgba(255,138,91,.5) 40%,
+        rgba(255,194,75,.45) 54%,
+        rgba(173,99,201,.5) 70%,
+        rgba(94,140,255,0) 88%);
+    background-size: 260% 260%;
+    filter: blur(48px);
+    animation: auroraDrift 24s ease-in-out infinite alternate;
+    will-change: background-position, transform;
   }
 
   .container { max-width: 760px; margin: 0 auto; position: relative; z-index: 1; }
@@ -73,12 +85,15 @@
     font-size: 30px; font-weight: 700; display: flex; align-items: center;
     justify-content: center; gap: 12px; line-height: 1.1;
   }
-  header h1 .moon { font-size: 34px; filter: drop-shadow(0 4px 14px rgba(167,139,250,.6)); animation: floaty 4s ease-in-out infinite; }
+  header h1 .moon { font-size: 34px; filter: drop-shadow(0 4px 14px rgba(255,122,90,.6)); animation: floaty 4s ease-in-out infinite; }
   header h1 .grad {
     font-family: 'Dancing Script', cursive; font-weight: 700; font-size: 52px;
-    background: var(--grad); -webkit-background-clip: text; background-clip: text;
+    background: linear-gradient(90deg, #ffc24b, #ff8a5b, #ff5f8d, #ff8a5b, #ffc24b);
+    background-size: 200% auto;
+    -webkit-background-clip: text; background-clip: text;
     color: transparent; -webkit-text-fill-color: transparent;
-    filter: drop-shadow(0 2px 20px rgba(167,139,250,.45));
+    filter: drop-shadow(0 2px 20px rgba(255,122,90,.45));
+    animation: shimmer 9s linear infinite;
   }
   header p { color: var(--muted); font-size: 14px; margin-top: 6px; letter-spacing: .3px; }
 
@@ -99,8 +114,8 @@
     position: relative; animation: rise .6s ease both;
   }
   .auth-card::before {
-    content: "🌙"; position: absolute; top: -26px; left: 50%; transform: translateX(-50%);
-    font-size: 44px; filter: drop-shadow(0 6px 18px rgba(167,139,250,.7));
+    content: "🌅"; position: absolute; top: -26px; left: 50%; transform: translateX(-50%);
+    font-size: 44px; filter: drop-shadow(0 6px 18px rgba(255,140,80,.7));
     animation: floaty 3.5s ease-in-out infinite;
   }
   .auth-card h2 {
@@ -119,10 +134,10 @@
     width: 100%; padding: 14px; border: none; border-radius: 12px; cursor: pointer;
     font-size: 16px; font-weight: 600; color: #fff; letter-spacing: .3px;
     background: var(--grad); background-size: 180% 180%;
-    box-shadow: 0 10px 28px rgba(167,139,250,.45);
+    box-shadow: 0 10px 28px rgba(255,122,90,.45);
     transition: transform .15s, box-shadow .15s, filter .2s;
   }
-  .auth-card .primary-btn:hover { transform: translateY(-2px); box-shadow: 0 16px 36px rgba(244,114,182,.5); filter: brightness(1.05); }
+  .auth-card .primary-btn:hover { transform: translateY(-2px); box-shadow: 0 16px 36px rgba(255,95,141,.5); filter: brightness(1.05); }
   .auth-card .primary-btn:active { transform: translateY(0); }
   .auth-card .primary-btn:disabled { opacity: .6; cursor: not-allowed; transform: none; }
   .auth-switch { text-align: center; margin-top: 18px; font-size: 14px; color: var(--muted); }
@@ -154,7 +169,7 @@
   .tab:hover { color: var(--text); border-color: var(--accent); transform: translateY(-1px); }
   .tab.active {
     color: #fff; border-color: transparent; background: var(--grad);
-    box-shadow: 0 10px 24px rgba(167,139,250,.4);
+    box-shadow: 0 10px 24px rgba(255,122,90,.4);
   }
 
   /* ---------- Giriş alanı ---------- */
@@ -167,14 +182,14 @@
   }
   .input-row input[type="text"] { flex: 1; }
   .input-row select option { color: #15172e; }
-  input:focus, select:focus { border-color: var(--accent) !important; box-shadow: 0 0 0 3px rgba(167,139,250,.28); }
+  input:focus, select:focus { border-color: var(--accent) !important; box-shadow: 0 0 0 3px rgba(255,138,91,.32); }
   ::placeholder { color: rgba(238,242,255,.42); }
   .input-row button {
     padding: 13px 22px; border: none; border-radius: 12px; cursor: pointer;
     font-size: 15px; font-weight: 600; color: #fff; background: var(--grad);
-    box-shadow: 0 10px 24px rgba(167,139,250,.4); transition: transform .15s, box-shadow .15s, filter .2s;
+    box-shadow: 0 10px 24px rgba(255,122,90,.4); transition: transform .15s, box-shadow .15s, filter .2s;
   }
-  .input-row button:hover { transform: translateY(-2px); box-shadow: 0 14px 30px rgba(244,114,182,.5); filter: brightness(1.05); }
+  .input-row button:hover { transform: translateY(-2px); box-shadow: 0 14px 30px rgba(255,95,141,.5); filter: brightness(1.05); }
   .input-row button:disabled { opacity: .6; cursor: not-allowed; transform: none; }
 
   /* ---------- Liste ---------- */
@@ -189,7 +204,7 @@
   .item input[type="checkbox"] { width: 20px; height: 20px; cursor: pointer; accent-color: var(--accent); flex-shrink: 0; }
   .item .time {
     font-size: 12px; font-weight: 700; min-width: 50px; padding: 3px 9px; border-radius: 999px;
-    color: #06121a; background: linear-gradient(135deg, var(--cyan), #67e8f9); text-align: center;
+    color: #3a1500; background: linear-gradient(135deg, #ffb056, #ffd06b); text-align: center;
   }
   .item .text { flex: 1; font-size: 15px; word-break: break-word; }
   .item.done .text { text-decoration: line-through; color: var(--done); }
@@ -211,6 +226,15 @@
 
   @keyframes rise { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
   @keyframes floaty { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-7px); } }
+  @keyframes auroraDrift {
+    0%   { background-position: 0% 30%;   transform: translateY(0) scale(1.05); }
+    50%  { background-position: 100% 60%; transform: translateY(-3%) scale(1.1); }
+    100% { background-position: 40% 100%; transform: translateY(0) scale(1.05); }
+  }
+  @keyframes shimmer { to { background-position: 200% center; } }
+  @media (prefers-reduced-motion: reduce) {
+    .aurora, header h1 .grad, header h1 .moon, .auth-card::before { animation: none !important; }
+  }
   .auth-card::before { animation: floaty 3.5s ease-in-out infinite; }
 
   @media (max-width: 520px) {
@@ -221,9 +245,10 @@
 </style>
 </head>
 <body>
+  <div class="aurora"></div>
   <div class="container">
     <header>
-      <h1><span class="moon">🌙</span><span class="grad">Yapılacaklar Listesi</span></h1>
+      <h1><span class="moon">🌅</span><span class="grad">Yapılacaklar Listesi</span></h1>
       <p>Günlük, haftalık ve saatlik görevlerini yönet</p>
     </header>
 
