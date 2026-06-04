@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Todo Uygulaması</title>
+<title>Yapılacaklar Listesi</title>
 <style>
   :root {
     --bg: #f4f5f7;
@@ -137,7 +137,7 @@
 <body>
   <div class="container">
     <header>
-      <h1>📝 Todo</h1>
+      <h1>📝 Yapılacaklar Listesi</h1>
       <p>Günlük, haftalık ve saatlik görevlerini yönet</p>
     </header>
 
@@ -212,16 +212,23 @@
   /* ================= Oturum yönetimi ================= */
   let session = loadSession();
 
+  // localStorage bazı ortamlarda (örn. data: URL önizleme) kapalı olabilir;
+  // erişilemezse oturumu sayfa ömrü boyunca bellekte tutarız.
+  const memStore = {};
+  function storeGet(k) { try { return localStorage.getItem(k); } catch (e) { return (k in memStore) ? memStore[k] : null; } }
+  function storeSet(k, v) { try { localStorage.setItem(k, v); } catch (e) { memStore[k] = v; } }
+  function storeRemove(k) { try { localStorage.removeItem(k); } catch (e) { delete memStore[k]; } }
+
   function loadSession() {
-    try { return JSON.parse(localStorage.getItem(SESSION_KEY)); } catch (e) { return null; }
+    try { return JSON.parse(storeGet(SESSION_KEY)); } catch (e) { return null; }
   }
   function saveSession(s) {
     session = s;
-    localStorage.setItem(SESSION_KEY, JSON.stringify(s));
+    storeSet(SESSION_KEY, JSON.stringify(s));
   }
   function clearSession() {
     session = null;
-    localStorage.removeItem(SESSION_KEY);
+    storeRemove(SESSION_KEY);
   }
 
   /* access_token süresi dolduysa refresh_token ile yeniler */
